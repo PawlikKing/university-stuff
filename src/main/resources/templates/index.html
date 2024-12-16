@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Zarządzanie Produktami</title>
+</head>
+<body>
+<h2>Lista Produktów</h2>
+<div th:each="product : ${listProducts}">
+    <p th:text="|Nazwa: ${product.name}, Cena: ${product.price}|"></p>
+</div>
+</body>
+</html>
