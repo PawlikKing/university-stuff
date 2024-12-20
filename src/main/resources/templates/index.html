@@ -8,6 +8,8 @@
 <h2>Lista Produktów</h2>
 <div th:each="product : ${listProducts}">
     <p th:text="|Nazwa: ${product.name}, Cena: ${product.price}|"></p>
+    <!-- Przycisk Usuwania -->
+    <a th:href="@{/delete/{id}(id=${product.id})}">Usuń</a>
 </div>
 </body>
 </html>

@@ -6,10 +6,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class ProductService {
-@Autowired
-private ProductRepository productRepository;
-public List<Product> listAll() {
+    @Autowired
+    private ProductRepository productRepository;
+    public List<Product> listAll() {
 return productRepository.findAll();
 }
-// Inne metody (zapisz, usuń, pobierz po id)
+    public void save(Product product) {
+        productRepository.save(product);
+    }
+    public Product get(Long id) {
+        return productRepository.findById(id).get();
+    }
+    public void delete(Long id) {
+        productRepository.deleteById(id);
+    }
 }
