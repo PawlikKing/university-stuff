@@ -1,6 +1,6 @@
-package com.example.controller;
-import com.example.model.Product;
-import com.example.service.ProductService;
+package com.example.products.controller;
+import com.example.products.model.Product;
+import com.example.products.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class ProductController {
     @Autowired
@@ -16,7 +18,9 @@ public class ProductController {
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
-        model.addAttribute("listProducts", productService.listAll());
+        List<Product> products = productService.listAll();
+        System.out.println("Products: " + products); // Logowanie listy produktów
+        model.addAttribute("listProducts", products);
         return "index";
     }
 
