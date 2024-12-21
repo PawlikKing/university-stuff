@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 @Entity
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Użyj IDENTITY, jeśli baza danych to MySQL
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

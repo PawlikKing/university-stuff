@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
     <meta charset="UTF-8">
     <title>Błąd</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="error-style.css">
 </head>
 <body>
-<h2>Wystąpił błąd</h2>
-<p th:text="${errorMessage}" style="color: red;"></p>
-<a href="/">Powrót do strony głównej</a>
+<div class="container">
+    <h2>Wystąpił błąd</h2>
+    <div class="error-message">
+        <p th:text="${errorMessage}">Nieznany błąd.</p>
+    </div>
+    <a href="/" class="btn">Powrót do strony głównej</a>
+</div>
 </body>
 </html>

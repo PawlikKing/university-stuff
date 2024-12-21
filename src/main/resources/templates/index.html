@@ -1,7 +1,8 @@
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
     <meta charset="UTF-8">
     <title>Zarządzanie Produktami</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -9,12 +10,17 @@
     <h2>Lista Produktów</h2>
     <div class="product-list" th:each="product : ${listProducts}">
         <div class="product-item">
-            <p th:text="|Nazwa: ${product.name}, Cena: ${product.price}|" class="product-info"></p>
-            <a th:href="@{/edit/{id}(id=${product.id})}" class="btn btn-primary">Edytuj</a>
-            <a th:href="@{/delete/{id}(id=${product.id})}" class="btn btn-danger">Usuń</a>
+            <div class="product-details">
+                <p class="product-name" th:text="|Nazwa: ${product.name}|"></p>
+                <p class="product-price" th:text="|Cena: ${product.price} zł|"></p>
+            </div>
+            <div class="product-actions">
+                <a th:href="@{/edit/{id}(id=${product.id})}" class="btn btn-primary">Edytuj</a>
+                <a th:href="@{/delete/{id}(id=${product.id})}" class="btn btn-danger">Usuń</a>
+            </div>
         </div>
     </div>
-    <!-- Przycisk dodawania nowego produktu -->
+
     <div class="add-product">
         <a th:href="@{/new}" class="btn btn-success">Dodaj Nowy Produkt</a>
     </div>

@@ -19,7 +19,7 @@ public class ProductController {
     @GetMapping("/")
     public String viewHomePage(Model model) {
         List<Product> products = productService.listAll();
-        System.out.println("Products: " + products); // Logowanie listy produktów
+        System.out.println("Products: " + products);
         model.addAttribute("listProducts", products);
         return "index";
     }
@@ -36,7 +36,7 @@ public class ProductController {
             productService.save(product);
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "new_product"; // Powrót do formularza z błędem
+            return "new_product";
         }
         return "redirect:/";
     }
@@ -48,7 +48,7 @@ public class ProductController {
             model.addAttribute("product", product);
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "error"; // Wyświetl szablon błędu
+            return "error";
         }
         return "edit_product";
     }
@@ -59,7 +59,7 @@ public class ProductController {
             productService.delete(id);
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage());
-            return "error"; // Wyświetl szablon błędu
+            return "error";
         }
         return "redirect:/";
     }
