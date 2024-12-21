@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gra Wisielec - Dokumentacja</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>Gra "Wisielec" - Dokumentacja</h1>
+</header>
+<nav>
+    <ul id="sidebar">
+        <li><a href="#title">Strona tytułowa</a></li>
+        <li><a href="#introduction">Wstęp</a></li>
+        <li><a href="#algorithm">Opis algorytmu</a></li>
+        <li><a href="#implementation">Plan implementacji</a></li>
+        <li><a href="#code">Kod źródłowy</a></li>
+        <li><a href="#testing">Testowanie</a></li>
+        <li><a href="#conclusion">Wnioski</a></li>
+    </ul>
+</nav>
+<main>
+    <section id="title">
+        <h2>1. Strona tytułowa</h2>
+        <p><strong>Tytuł projektu:</strong> Implementacja gry "Wisielec"</p>
+        <p><strong>Autor:</strong> idk</p>
+        <p><strong>Data:</strong> 9.12.2024</p>
+        <p><strong>Kurs:</strong> Podstawy Programowania</p>
+    </section>
+    <section id="introduction">
+        <h2>2. Wstęp</h2>
+        <p><strong>Cel projektu:</strong> Celem projektu jest stworzenie gry "Wisielec", aby zrozumieć programowanie proceduralne.</p>
+        <p><strong>Opis algorytmu:</strong> Gra umożliwia odgadywanie słów z kategorii.</p>
+    </section>
+    <section id="algorithm">
+        <h2>3. Opis algorytmu</h2>
+        <p>Gra polega na odgadywaniu słów poprzez podawanie liter...</p>
+    </section>
+    <section id="implementation">
+        <h2>4. Plan implementacji</h2>
+        <ul>
+            <li>Zaimportowanie bibliotek.</li>
+            <li>Stworzenie funkcji gry: losowanie, rysowanie szubienicy, aktualizacja słowa.</li>
+            <li>Przetestowanie programu.</li>
+        </ul>
+    </section>
+    <section id="code">
+        <h2>5. Kod źródłowy</h2>
+        <pre><code>
+// Kod źródłowy w C++
+#include <iostream>
+#include <map>
+#include <vector>
+#include <string>
+#include <locale>
+#include <cstdlib>
+#include <ctime>
+#include <cctype>
+#include <algorithm>
+
+std::string getRandomElement(const std::map<std::string, std::vector<std::string>>& table, const std::string& category) {
+    auto it = table.find(category);
+    if (it != table.end() && !it->second.empty()) {
+        const auto& values = it->second;
+        size_t randomIndex = rand() % values.size();
+        return values[randomIndex];
+    } else {
+        return "";
+    }
+}
+
+void renderHangman(int level) {
+    const std::vector<std::string> hangmanStages = {
+        "  +---+\n      |\n      |\n      |\n     ===\n",
+        "  +---+\n  O   |\n      |\n      |\n     ===\n",
+        "  +---+\n  O   |\n  |   |\n      |\n     ===\n",
+        "  +---+\n  O   |\n /|   |\n      |\n     ===\n",
+        "  +---+\n  O   |\n /|\\  |\n      |\n     ===\n",
+        "  +---+\n  O   |\n /|\\  |\n /    |\n     ===\n",
+        "  +---+\n  O   |\n /|\\  |\n / \\  |\n     ===\n"
+    };
+    std::cout << hangmanStages[level];
+}
+
+void renderWord(const std::string& word, const std::string& guessedWord, const std::vector<char>& wrongGuesses) {
+    for (char c : guessedWord) {
+        std::cout << c << " ";
+    }
+    std::cout << "\n\nWrong letters: ";
+    for (char c : wrongGuesses) {
+        std::cout << c << " ";
+    }
+    std::cout << "\n\n";
+}
+
+void startNewGame(const std::map<std::string, std::vector<std::string>>& categories) {
+    std::string category;
+    std::cout << "Hangman - [New Game]\nAvailable categories:\n";
+    for (const auto& pair : categories) {
+        std::cout << pair.first << " | ";
+    }
+
+    std::cout << "\nChoose a category: ";
+    std::cin >> category;
+
+    std::string randomWord = getRandomElement(categories, category);
+    if (randomWord.empty()) {
+        std::cout << "Invalid category or no words in category.\n";
+        return;
+    }
+
+    std::string guessedWord(randomWord.size(), '_');
+    std::vector<char> wrongGuesses;
+    int hangmanLevel = 0;
+    int maxPoints = randomWord.size();
+    int points = 0;
+
+    std::cout << "\nStarting game...\nCategory: [" << category << "]\n";
+
+    while (hangmanLevel < 6 && guessedWord != randomWord) {
+        renderHangman(hangmanLevel);
+        renderWord(randomWord, guessedWord, wrongGuesses);
+
+        char guess;
+        std::cout << "Enter a letter: ";
+        std::cin >> guess;
+
+        guess = tolower(guess);
+        std::string lowerWord = randomWord;
+        std::transform(lowerWord.begin(), lowerWord.end(), lowerWord.begin(), ::tolower);
+
+        if (lowerWord.find(guess) != std::string::npos) {
+            bool correct = false;
+            for (size_t i = 0; i < lowerWord.size(); ++i) {
+                if (lowerWord[i] == guess && guessedWord[i] == '_') {
+                    guessedWord[i] = randomWord[i]; // Preserve original case
+                    correct = true;
+                    points++;
+                }
+            }
+            if (!correct) {
+                std::cout << "Letter already guessed!\n";
+            }
+        } else {
+            wrongGuesses.push_back(guess);
+            hangmanLevel++;
+            points--;
+        }
+    }
+
+    if (guessedWord == randomWord) {
+        std::cout << "\nYou win! The word was: " << randomWord << "\n";
+        std::cout << "Your score: " << points << "/" << maxPoints << "\n";
+    } else {
+        renderHangman(hangmanLevel);
+        std::cout << "\nGame Over! The word was: " << randomWord << "\n";
+    }
+}
+
+int main() {
+    std::locale::global(std::locale(""));
+    std::wcout.imbue(std::locale());
+
+    std::map<std::string, std::vector<std::string>> categories = {
+        {"Cities", {"Warsaw", "Paris", "London", "Berlin"}},
+        {"Animals", {"Raccoon", "Ferret", "Coyote", "Moray"}},
+        {"Office Items", {"Mouse", "Monitor", "Stapler", "Folder"}},
+        {"Kitchen Items", {"Pan", "Sink", "Cutlery", "Fridge"}}
+    };
+
+    srand(static_cast<unsigned int>(time(0)));
+
+    char playAgain;
+    do {
+        startNewGame(categories);
+        std::cout << "\nPlay again? (y/n): ";
+        std::cin >> playAgain;
+    } while (tolower(playAgain) == 'y');
+
+    return 0;
+}
+
+            </code></pre>
+    </section>
+    <section id="testing">
+        <h2>6. Testowanie</h2>
+        <p><strong>Przykład:</strong></p>
+        <pre>
+Wejście: Kategoria: Cities, Wprowadzane litery: W, A, R, S
+Wyjście:
+Hangman - [New Game]
+Available categories:
+Animals | Cities | Kitchen Items | Office Items |
+Choose a category: Animals
+
+Starting game...
+Category: [Animals]
+  +---+
+      |
+      |
+      |
+     ===
+_ _ _ _ _
+
+Wrong letters:
+
+Enter a letter: a
+  +---+
+      |
+      |
+      |
+     ===
+_ _ _ a _
+
+Wrong letters:
+
+Enter a letter: b
+  +---+
+  O   |
+      |
+      |
+     ===
+_ _ _ a _
+
+Wrong letters: b
+
+Enter a letter: c
+  +---+
+  O   |
+  |   |
+      |
+     ===
+_ _ _ a _
+
+Wrong letters: b c
+
+Enter a letter:
+            </pre>
+    </section>
+    <section id="conclusion">
+        <h2>7. Wnioski</h2>
+        <p>Gra działa poprawnie i spełnia założenia projektu.</p>
+    </section>
+</main>
+<footer>
+    <p>Dokumentacja gry "Wisielec"</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
