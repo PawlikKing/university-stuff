@@ -1,16 +1,23 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
     <title>Edytuj Produkt</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Edytuj produkt</h1>
-<form action="#" th:action="@{/save}" th:object="${product}" method="post">
-    <input type="hidden" th:field="*{id}" />
-    Nazwa: <input type="text" th:field="*{name}" />
-    Cena: <input type="text" th:field="*{price}" />
-    <input type="submit" value="Aktualizuj" />
-</form>
+<div class="container">
+    <h1>Edytuj Produkt</h1>
+    <form action="#" th:action="@{/save}" th:object="${product}" method="post" class="form">
+        <input type="hidden" th:field="*{id}" />
+
+        <label for="name">Nazwa:</label>
+        <input type="text" id="name" th:field="*{name}" class="input" placeholder="Wprowad? nazw?" />
+
+        <label for="price">Cena:</label>
+        <input type="text" id="price" th:field="*{price}" class="input" placeholder="Wprowad? cen?" />
+
+        <button type="submit" class="btn">Aktualizuj</button>
+    </form>
+</div>
 </body>
 </html>

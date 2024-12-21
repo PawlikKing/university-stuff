@@ -1,15 +1,18 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
     <title>Zarządzanie Produktami</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h2>Lista Produktów</h2>
-<div th:each="product : ${listProducts}">
-    <p th:text="|Nazwa: ${product.name}, Cena: ${product.price}|"></p>
-    <!-- Przycisk Usuwania -->
-    <a th:href="@{/delete/{id}(id=${product.id})}">Usuń</a>
+<div class="container">
+    <h2>Lista Produktów</h2>
+    <div class="product-list" th:each="product : ${listProducts}">
+        <div class="product-item">
+            <p th:text="|Nazwa: ${product.name}, Cena: ${product.price}|" class="product-info"></p>
+            <a th:href="@{/delete/{id}(id=${product.id})}" class="btn btn-danger">Usuń</a>
+        </div>
+    </div>
 </div>
 </body>
 </html>

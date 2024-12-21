@@ -1,15 +1,21 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
     <title>Dodaj Produkt</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Dodaj nowy produkt</h1>
-<form action="#" th:action="@{/save}" th:object="${product}" method="post">
-    Nazwa: <input type="text" th:field="*{name}" />
-    Cena: <input type="text" th:field="*{price}" />
-    <input type="submit" value="Zapisz" />
-</form>
+<div class="container">
+    <h1>Dodaj Nowy Produkt</h1>
+    <form action="#" th:action="@{/save}" th:object="${product}" method="post" class="form">
+        <label for="name">Nazwa:</label>
+        <input type="text" id="name" th:field="*{name}" class="input" placeholder="Wprowad? nazw?" />
+
+        <label for="price">Cena:</label>
+        <input type="text" id="price" th:field="*{price}" class="input" placeholder="Wprowad? cen?" />
+
+        <button type="submit" class="btn">Zapisz</button>
+    </form>
+</div>
 </body>
 </html>
