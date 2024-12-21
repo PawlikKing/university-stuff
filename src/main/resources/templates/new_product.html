@@ -1,18 +1,29 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Dodaj Produkt</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <div class="container">
     <h1>Dodaj Nowy Produkt</h1>
-    <form action="#" th:action="@{/save}" th:object="${product}" method="post" class="form">
-        <label for="name">Nazwa:</label>
-        <input type="text" id="name" th:field="*{name}" class="input" placeholder="Wprowad? nazw?" />
+    <!-- Formularz dodawania produktu -->
+    <form th:action="@{/save}" th:object="${product}" method="post" class="form">
+        <div class="form-group">
+            <label for="name">Nazwa:</label>
+            <input type="text" id="name" th:field="*{name}" class="input" placeholder="Wprowadź nazwę" required />
+        </div>
 
-        <label for="price">Cena:</label>
-        <input type="text" id="price" th:field="*{price}" class="input" placeholder="Wprowad? cen?" />
+        <div class="form-group">
+            <label for="price">Cena:</label>
+            <input type="number" id="price" th:field="*{price}" class="input" placeholder="Wprowadź cenę" step="0.01" min="0" required />
+        </div>
+
+        <!-- Sekcja błędów (opcjonalna) -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p style="color: red;" th:text="${errorMessage}"></p>
+        </div>
 
         <button type="submit" class="btn">Zapisz</button>
     </form>

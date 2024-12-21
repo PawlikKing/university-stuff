@@ -10,8 +10,13 @@
     <div class="product-list" th:each="product : ${listProducts}">
         <div class="product-item">
             <p th:text="|Nazwa: ${product.name}, Cena: ${product.price}|" class="product-info"></p>
+            <a th:href="@{/edit/{id}(id=${product.id})}" class="btn btn-primary">Edytuj</a>
             <a th:href="@{/delete/{id}(id=${product.id})}" class="btn btn-danger">Usuń</a>
         </div>
+    </div>
+    <!-- Przycisk dodawania nowego produktu -->
+    <div class="add-product">
+        <a th:href="@{/new}" class="btn btn-success">Dodaj Nowy Produkt</a>
     </div>
 </div>
 </body>

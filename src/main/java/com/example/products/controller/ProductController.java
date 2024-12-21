@@ -26,27 +26,41 @@ public class ProductController {
 
     @GetMapping("/new")
     public String showNewProductForm(Model model) {
-        Product product = new Product();
-        model.addAttribute("product", product);
+        model.addAttribute("product", new Product());
         return "new_product";
     }
 
-    @PostMapping(value = "/save")
-    public String saveProduct(@ModelAttribute("product") Product product) {
-        productService.save(product);
+    @PostMapping("/save")
+    public String saveProduct(@ModelAttribute("product") Product product, Model model) {
+        try {
+            productService.save(product);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "new_product"; // Powrót do formularza z błędem
+        }
         return "redirect:/";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
-        Product product = productService.get(id);
-        model.addAttribute("product", product);
+        try {
+            Product product = productService.get(id);
+            model.addAttribute("product", product);
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error"; // Wyświetl szablon błędu
+        }
         return "edit_product";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable("id") Long id) {
-        productService.delete(id);
+    public String deleteProduct(@PathVariable("id") Long id, Model model) {
+        try {
+            productService.delete(id);
+        } catch (RuntimeException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "error"; // Wyświetl szablon błędu
+        }
         return "redirect:/";
     }
 }

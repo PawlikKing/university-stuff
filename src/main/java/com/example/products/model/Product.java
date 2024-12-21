@@ -8,12 +8,14 @@ import jakarta.persistence.GenerationType;
 @Entity
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Użyj IDENTITY, jeśli baza danych to MySQL
     private Long id;
+
     private String name;
+
     private double price;
 
-    // Getters and setters
+    // Gettery i Settery
     public Long getId() {
         return id;
     }
